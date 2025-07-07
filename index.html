@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PRAISLENCE</title>
+  <link rel="icon" href="https://yourdomain.com/favicon.ico" />
+  <meta name="description" content="Layanan Jasa Bot WhatsApp & Panel Pterodactyl oleh HanzyyOfficial.">
+  <meta name="keywords" content="Hanzyy, Bot WhatsApp, Script WA, Panel Pterodactyl, Jasa Coding">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      transition: background 0.5s ease, color 0.5s ease;
     }
     header h1 {
       font-family: 'Orbitron', sans-serif;
@@ -24,16 +28,43 @@
         transform: translateY(0);
       }
     }
+    .light-mode {
+      --bg-color: #ffffff;
+      --text-color: #1f2937;
+      --box-bg: #f3f4f6;
+      --button-bg: #14b8a6;
+      --button-hover: #0d9488;
+      --border-color: #14b8a6;
+    }
+    .dark-mode {
+      --bg-color: #1f2937;
+      --text-color: #ffffff;
+      --box-bg: #374151;
+      --button-bg: #14b8a6;
+      --button-hover: #0d9488;
+      --border-color: #14b8a6;
+    }
+    .theme-transition {
+      transition: background 0.3s, color 0.3s;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-  <!-- Logo Splash Screen -->
+<body id="body" class="dark-mode bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+
+  <!-- Splash Screen -->
   <div id="logo-screen" class="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center">
-   <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
+    <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
   </div>
 
+  <!-- Main Content -->
   <div id="main-content" class="hidden">
-    <!-- Welcome Animation -->
+    <!-- Toggle Theme -->
+    <div class="fixed top-4 right-4 z-50">
+      <button id="toggleTheme" class="px-4 py-2 bg-yellow-400 text-black rounded hover:bg-yellow-500 transition font-semibold">
+        🌙 Mode Terang
+      </button>
+    </div>
+
     <div id="welcome-message" class="text-center py-6 text-3xl font-bold text-teal-400">
       Selamat Datang Di Website HanzyyOffc
     </div>
@@ -43,7 +74,7 @@
     </audio>
 
     <header class="bg-gray-800 shadow p-6">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
         <h1 class="text-4xl font-bold text-teal-400 tracking-widest">HanzyyOfficial</h1>
         <a href="https://wa.me/6282264176976" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition">Hubungi Kami</a>
       </div>
@@ -52,6 +83,11 @@
     <main class="max-w-7xl mx-auto px-4 py-12">
       <h2 class="text-3xl font-semibold mb-8 text-center text-teal-300">Produk & Service</h2>
       <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
+
+      <!-- Tombol QRIS -->
+      <div class="text-center mt-10">
+        <button onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-yellow-500 text-black px-6 py-2 rounded-lg hover:bg-yellow-600 transition">Bayar via QRIS</button>
+      </div>
     </main>
 
     <!-- QRIS Modal -->
@@ -69,34 +105,40 @@
     </footer>
   </div>
 
-  <!-- Script Logo & Produk -->
+  <!-- Script Produk + Theme Switch -->
   <script>
     const produk = [
-      { nama: "Jasa Fix Pairing Code" },
-      { nama: "Jasa Fix Script Bot Wa" },
-      { nama: "Jasa Ubah Tema Script" },
-      { nama: "Jasa Ubah Code Pairing Jadi Nama Code Sendiri" },
-      { nama: "Jasa Pw/Key Di Panel Sc Kalian" },
-      { nama: "Jasa Rename Script Bot Wa" },
-      { nama: "Jasa Bikin Script Bot Wa" },
-      { nama: "Panel Pterodactyl" },
-      { nama: "Reseller Panel" },
-      { nama: "Admin Panel" },
-      { nama: "PT Panel" },
-      { nama: "Own Panel" },
-      { nama: "Script Bot Pushkontak VIP" },
-      { nama: "Script Bot MD 1000 Fitur" },
-      { nama: "Script Bot Jaga Grup + Pushkontak + Jpm" },
-      { nama: "Script Bot" },
+      { nama: "Jasa Fix Pairing Code", harga: "Rp10.000" },
+      { nama: "Jasa Fix Script Bot Wa", harga: "Rp15.000" },
+      { nama: "Jasa Ubah Tema Script", harga: "Rp20.000" },
+      { nama: "Jasa Ubah Code Pairing Jadi Nama Code Sendiri", harga: "Rp15.000" },
+      { nama: "Jasa Pw/Key Di Panel Sc Kalian", harga: "Rp10.000" },
+      { nama: "Jasa Rename Script Bot Wa", harga: "Rp5.000" },
+      { nama: "Jasa Bikin Script Bot Wa", harga: "Rp50.000" },
+      { nama: "Panel Pterodactyl", harga: "Rp30.000" },
+      { nama: "Reseller Panel", harga: "Rp25.000" },
+      { nama: "Admin Panel", harga: "Rp20.000" },
+      { nama: "PT Panel", harga: "Rp30.000" },
+      { nama: "Own Panel", harga: "Rp40.000" },
+      { nama: "Script Bot Pushkontak VIP", harga: "Rp35.000" },
+      { nama: "Script Bot MD 1000 Fitur", harga: "Rp45.000" },
+      { nama: "Script Bot Jaga Grup + Pushkontak + JPM", harga: "Rp50.000" },
+      { nama: "Script Bot", harga: "Rp25.000" },
     ];
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Splash Screen
       setTimeout(() => {
         document.getElementById('logo-screen').classList.add('hidden');
         document.getElementById('main-content').classList.remove('hidden');
-        document.getElementById('welcome-audio').play();
+        const audio = document.getElementById('welcome-audio');
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((e) => console.log("Autoplay ditolak:", e));
+        }
       }, 2500);
 
+      // Generate Produk
       const container = document.getElementById('produk-list');
       produk.forEach((item) => {
         const div = document.createElement('div');
@@ -108,7 +150,34 @@
         `;
         container.appendChild(div);
       });
+
+      // Theme Switcher
+      const body = document.getElementById('body');
+      const toggleBtn = document.getElementById('toggleTheme');
+
+      const applyTheme = (mode) => {
+        if (mode === 'light') {
+          body.classList.remove('dark-mode');
+          body.classList.add('light-mode');
+          toggleBtn.textContent = '🌙 Mode Gelap';
+        } else {
+          body.classList.remove('light-mode');
+          body.classList.add('dark-mode');
+          toggleBtn.textContent = '🌞 Mode Terang';
+        }
+        localStorage.setItem('theme', mode);
+      };
+
+      toggleBtn.addEventListener('click', () => {
+        const current = body.classList.contains('light-mode') ? 'light' : 'dark';
+        applyTheme(current === 'dark' ? 'light' : 'dark');
+      });
+
+      // Apply saved theme
+      const saved = localStorage.getItem('theme') || 'dark';
+      applyTheme(saved);
     });
   </script>
 </body>
 </html>
+
