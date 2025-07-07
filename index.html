@@ -2,191 +2,227 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HanzyyProduk & Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HanzyyProduk & Invoice</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top center, #0e0e2c, #000000);
-      background-attachment: fixed;
+      transition: background 0.5s, color 0.5s;
       overflow-x: hidden;
-      color: white;
     }
-    header h1 { font-family: 'Orbitron', sans-serif; }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    @keyframes fadeSlideDown {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #logo-screen {
+      animation: fadeSlideDown 1.2s ease-out forwards;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
+    @media print {
+      .no-print { display: none !important; }
+    }
+
     .stars {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       background: transparent url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') repeat;
       background-size: cover;
-      opacity: 0.07;
+      opacity: 0.08;
       z-index: 0;
     }
-    #produk-list::before {
+
+    #produk-wrapper {
+      position: relative;
+      z-index: 1;
+      border-radius: 1rem;
+    }
+
+    #produk-wrapper::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background: url('https://images.unsplash.com/photo-1578926287944-2213e1d9b2dd?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
       opacity: 0.1;
       z-index: -1;
+      border-radius: 1rem;
     }
+
+    .dark-mode {
+      background: radial-gradient(circle at top center, #2c0e0e 0%, #1a0000 100%);
+      color: white;
+    }
+
+    .light-mode {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+
+    .light-mode .stars {
+      display: none;
+    }
+
+    .light-mode header,
+    .light-mode footer,
+    .light-mode #invoice-section {
+      background-color: #ffffff;
+      color: #1f2937;
+    }
+
+    .light-mode #produk-list .bg-gray-800 {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+
   </style>
 </head>
-<body>
-<div class="stars"></div>
+<body class="dark-mode">
+  <div class="stars"></div>
 
-<!-- Tombol Login -->
-<div class="fixed top-4 right-4 z-50">
-  <button onclick="showLogin()" class="bg-red-600 px-4 py-2 rounded text-white font-bold">🔒 Command Login</button>
-</div>
+  <!-- Splash Screen -->
+  <div id="logo-screen" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
+    <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
+  </div>
 
-<!-- Produk -->
-<div class="max-w-7xl mx-auto px-4 py-16">
-  <h1 class="text-4xl font-bold text-center text-teal-400 mb-10">Produk & Layanan Hanzyy</h1>
-  <div id="produk-list" class="relative grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 z-10"></div>
-</div>
-
-<!-- Panel Admin -->
-<div id="admin-panel" class="fixed inset-0 bg-black bg-opacity-90 text-white hidden z-50 flex flex-col items-center justify-center p-8">
-  <h2 class="text-2xl font-bold mb-4">🛠️ Admin Panel</h2>
-  <div class="w-full max-w-lg space-y-4">
-    <label class="block">Edit Produk (format JSON):</label>
-    <textarea id="edit-produk" class="w-full h-40 text-black p-2 rounded"></textarea>
-    <label class="block">Pilih Tema:</label>
-    <select id="theme-selector" class="w-full p-2 text-black rounded">
-      <option value="dark">🌑 Dark</option>
-      <option value="light">☀️ Light</option>
-      <option value="blood">🌕 Blood Moon</option>
-    </select>
-    <div class="flex space-x-4 mt-4">
-      <button onclick="saveAdmin()" class="bg-green-600 px-4 py-2 rounded">💾 Simpan</button>
-      <button onclick="logoutAdmin()" class="bg-red-500 px-4 py-2 rounded">🚪 Keluar</button>
+  <!-- MAIN CONTENT -->
+  <div id="main-content" class="hidden relative z-10">
+    <!-- Welcome -->
+    <div class="text-center py-6 text-3xl font-bold text-teal-400">
+      Selamat Datang Di Website HanzyyOfficial
     </div>
+
+    <audio id="welcome-audio">
+      <source src="https://www.myinstants.com/media/sounds/mixkit-fairy-bells-583.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Header -->
+    <header class="bg-gray-800 shadow p-6 no-print">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <h1 class="text-4xl font-bold text-teal-400 tracking-widest">HanzyyOfficial</h1>
+        <div class="flex gap-2">
+          <button id="theme-toggle" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition">Ganti Tema</button>
+          <a href="https://t.me/XyHanzyy" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition">Hubungi Kami</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Produk -->
+    <main class="max-w-7xl mx-auto px-4 py-12 no-print relative">
+      <h2 class="text-3xl font-semibold mb-8 text-center text-teal-300">Produk & Service</h2>
+      <div id="produk-wrapper" class="p-4">
+        <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative z-10"></div>
+      </div>
+    </main>
+
+    <!-- INVOICE -->
+    <section id="invoice-section" class="max-w-2xl mx-auto p-8 bg-gray-800 shadow-lg mt-10 rounded-lg hidden">
+      <div class="text-center mb-6">
+        <img src="https://g.top4top.io/p_347205kts1.jpg" class="w-32 h-auto mx-auto mb-2 rounded-full shadow" />
+        <p class="text-sm text-teal-400">HanzyyOfficial</p>
+      </div>
+      <div class="text-center mb-6">
+        <img src="https://k.top4top.io/p_3474n29381.jpg" alt="QR Pembayaran" class="w-48 mx-auto rounded shadow border">
+        <p class="text-xs text-gray-400 mt-1">Scan QR untuk pembayaran</p>
+      </div>
+      <h1 class="text-3xl font-bold text-center text-teal-400 mb-6">Invoice Pembelian</h1>
+      <div class="space-y-4 text-lg">
+        <p><strong>Nama Produk:</strong> <span id="produk-nama">...</span></p>
+        <p><strong>Harga:</strong> Rp <span id="produk-harga">...</span></p>
+        <p><strong>ID Transaksi:</strong> <span id="produk-id">...</span></p>
+        <p><strong>Status:</strong> <span id="produk-status">Belum Lunas</span></p>
+        <p><strong>Tanggal:</strong> <span id="produk-tanggal">...</span></p>
+      </div>
+      <div class="text-center mt-8 space-x-4 no-print">
+        <button onclick="window.print()" class="px-6 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition">🧾 Cetak Invoice</button>
+        <button onclick="closeInvoice()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-400 transition">← Kembali</button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-center py-6 shadow-inner mt-10">
+      <p class="text-gray-400">&copy; 2025 HANZYYOFFC. All rights reserved.</p>
+    </footer>
   </div>
-</div>
 
-<!-- Login Box -->
-<div id="login-box" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center">
-  <div class="bg-gray-900 p-8 rounded shadow max-w-sm w-full">
-    <h2 class="text-xl mb-4">Masukkan Password Admin:</h2>
-    <input type="password" id="admin-password" class="w-full p-2 mb-4 rounded text-black" placeholder="Password" />
-    <button onclick="validateLogin()" class="bg-blue-600 px-4 py-2 rounded text-white">Login</button>
-  </div>
-</div>
+  <!-- Script -->
+  <script>
+    const produk = [
+      { nama: "Jasa Fix Pairing Code", harga: 10000 },
+      { nama: "Jasa Fix Script Bot Wa", harga: 15000 },
+      { nama: "Jasa Pasang Functions Wa", harga: 15000 },
+      { nama: "Jasa Pasang Database Wa", harga: 20000 },
+      { nama: "Buy Script Slayer Version 4", harga: 25000 },
+    ];
 
-<script>
-  const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/HanzyyOffc/HanzyyProduk/main/produk.json';
-  const GITHUB_API_URL = 'https://api.github.com/repos/HanzyyOffc/HanzyyProduk/contents/produk.json';
-  const GITHUB_TOKEN = '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'; // Ganti dengan token GitHub kamu
-
-  let produk = [];
-
-  async function fetchProduk() {
-    try {
-      const res = await fetch(GITHUB_RAW_URL);
-      produk = await res.json();
-      renderProduk();
-    } catch (e) {
-      alert("Gagal memuat produk dari GitHub.");
-      produk = [];
-    }
-  }
-
-  function renderProduk() {
-    const list = document.getElementById('produk-list');
-    list.innerHTML = '';
-    produk.forEach(item => {
-      const div = document.createElement('div');
-      div.className = "bg-gray-800 rounded-xl p-6 border border-teal-500 shadow-lg hover:scale-105 transition-transform duration-300";
-      div.innerHTML = `
-        <h3 class="text-xl font-semibold text-teal-400">${item.nama}</h3>
-        <p class="text-gray-300 mb-2">Rp ${item.harga}</p>
-        <a href="https://wa.me/6282264176976?text=Halo, saya ingin membeli ${encodeURIComponent(item.nama)}" class="block bg-teal-500 text-white text-center px-4 py-2 rounded hover:bg-teal-600 transition">Pesan via WA</a>
-      `;
-      list.appendChild(div);
-    });
-  }
-
-  async function saveAdmin() {
-    try {
-      const val = JSON.parse(document.getElementById('edit-produk').value);
-      const base64 = btoa(unescape(encodeURIComponent(JSON.stringify(val, null, 2))));
-      const response = await fetch(GITHUB_API_URL, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `token ${GITHUB_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: 'Update produk via Admin Panel',
-          content: base64,
-          sha: window.lastSHA
-        })
+    function generateInvoice(nama, harga) {
+      document.getElementById("produk-nama").innerText = nama;
+      document.getElementById("produk-harga").innerText = harga;
+      document.getElementById("produk-id").innerText = "INV" + Date.now();
+      document.getElementById("produk-status").innerText = "Belum Lunas";
+      const tanggal = new Date().toLocaleDateString('id-ID', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
       });
-      const result = await response.json();
-      if (result.content) {
-        alert('Produk berhasil disimpan!');
-        fetchProduk();
-      } else {
-        alert('Gagal menyimpan ke GitHub.');
-      }
-    } catch (e) {
-      alert('Format JSON salah atau gagal menyimpan!');
+      document.getElementById("produk-tanggal").innerText = tanggal;
+      document.getElementById("invoice-section").scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("invoice-section").classList.remove('hidden');
     }
-  }
 
-  async function getSHA() {
-    const res = await fetch(GITHUB_API_URL, {
-      headers: { Authorization: `token ${GITHUB_TOKEN}` }
-    });
-    const data = await res.json();
-    window.lastSHA = data.sha;
-  }
-
-  function showLogin() {
-    document.getElementById('login-box').classList.remove('hidden');
-  }
-
-  function validateLogin() {
-    const pass = document.getElementById('admin-password').value;
-    if (pass === 'hanzyycongek') {
-      document.getElementById('login-box').classList.add('hidden');
-      document.getElementById('admin-panel').classList.remove('hidden');
-      document.getElementById('edit-produk').value = JSON.stringify(produk, null, 2);
-    } else {
-      alert('Password salah!');
+    function closeInvoice() {
+      document.getElementById("invoice-section").classList.add('hidden');
     }
-  }
 
-  function logoutAdmin() {
-    document.getElementById('admin-panel').classList.add('hidden');
-  }
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.getElementById('logo-screen').classList.add('hidden');
+        document.getElementById('main-content').classList.remove('hidden');
+        document.getElementById('welcome-audio').play();
+      }, 2500);
 
-  // Tema
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('theme-selector').addEventListener('change', function () {
-      const val = this.value;
-      const body = document.body;
-      if (val === 'light') {
-        body.style.background = 'linear-gradient(to right, #fff, #ddd)';
-        body.style.color = '#111';
-      } else if (val === 'blood') {
-        body.style.background = 'radial-gradient(circle at top center, #2c0e0e, #1a0000)';
-        body.style.color = '#fff';
-      } else {
-        body.style.background = 'radial-gradient(circle at top center, #0e0e2c, #000000)';
-        body.style.color = '#fff';
-      }
+      const container = document.getElementById('produk-list');
+      produk.forEach(item => {
+        const div = document.createElement('div');
+        div.className = "bg-gray-800 border border-teal-500 rounded-xl shadow-lg p-6 hover:scale-105 transition-transform duration-300";
+        div.innerHTML = `
+          <h3 class="text-xl font-semibold text-teal-400">${item.nama}</h3>
+          <p class="text-gray-300 mb-4">Rp ${item.harga}</p>
+          <div class="space-y-2">
+            <a href="https://t.me/XyHanzyy?text=Halo%20saya%20mau%20beli%20${encodeURIComponent(item.nama)}" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition block text-center">Pesan via Telegram</a>
+            <button onclick="generateInvoice('${item.nama}', '${item.harga}')" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition w-full">🧾 Lihat Invoice</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Tema switch
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const body = document.body;
+        if (body.classList.contains("dark-mode")) {
+          body.classList.remove("dark-mode");
+          body.classList.add("light-mode");
+        } else {
+          body.classList.remove("light-mode");
+          body.classList.add("dark-mode");
+        }
+      });
     });
-  });
-
-  // Load data awal
-  fetchProduk();
-  getSHA();
-</script>
+  </script>
 </body>
 </html>
