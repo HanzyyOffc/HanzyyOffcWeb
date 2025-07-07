@@ -9,6 +9,9 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top center, #2c0e0e 0%, #1a0000 100%);
+      background-attachment: fixed;
+      overflow-x: hidden;
     }
     header h1 {
       font-family: 'Orbitron', sans-serif;
@@ -27,16 +30,41 @@
     @media print {
       .no-print { display: none !important; }
     }
+    #produk-list::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?&auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: -1;
+    }
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: transparent url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') repeat;
+      background-size: cover;
+      opacity: 0.07;
+      z-index: 0;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+<body class="text-white">
+  <div class="stars"></div>
+
   <!-- Splash Screen -->
   <div id="logo-screen" class="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center">
     <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
   </div>
 
   <!-- MAIN CONTENT -->
-  <div id="main-content" class="hidden">
+  <div id="main-content" class="hidden relative z-10">
     <!-- Welcome -->
     <div class="text-center py-6 text-3xl font-bold text-teal-400">
       Selamat Datang Di Website HanzyyOfficial
@@ -55,9 +83,9 @@
     </header>
 
     <!-- Produk -->
-    <main class="max-w-7xl mx-auto px-4 py-12 no-print">
+    <main class="max-w-7xl mx-auto px-4 py-12 no-print relative">
       <h2 class="text-3xl font-semibold mb-8 text-center text-teal-300">Produk & Service</h2>
-      <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
+      <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative z-10"></div>
     </main>
 
     <!-- INVOICE -->
@@ -100,6 +128,7 @@
     </footer>
   </div>
 
+  <!-- Script -->
   <script>
     const produk = [
       { nama: "Jasa Fix Pairing Code", harga: 10000 },
@@ -114,12 +143,10 @@
       document.getElementById("produk-harga").innerText = harga;
       document.getElementById("produk-id").innerText = "INV" + Date.now();
       document.getElementById("produk-status").innerText = "Belum Lunas";
-
       const tanggal = new Date().toLocaleDateString('id-ID', {
         weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
       });
       document.getElementById("produk-tanggal").innerText = tanggal;
-
       document.getElementById("invoice-section").scrollIntoView({ behavior: 'smooth' });
       document.getElementById("invoice-section").classList.remove('hidden');
     }
