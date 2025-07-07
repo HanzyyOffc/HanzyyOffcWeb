@@ -9,24 +9,31 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
+      transition: background 0.5s, color 0.5s;
+      overflow-x: hidden;
     }
+
     header h1 {
       font-family: 'Orbitron', sans-serif;
     }
-    #logo-screen {
-      animation: fadeSlideDown 1.2s ease-out forwards;
-      opacity: 0;
-      transform: translateY(-20px);
-    }
+
     @keyframes fadeSlideDown {
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
+
+    #logo-screen {
+      animation: fadeSlideDown 1.2s ease-out forwards;
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+
     @media print {
       .no-print { display: none !important; }
     }
+
     .stars {
       position: fixed;
       top: 0;
@@ -36,42 +43,67 @@
       pointer-events: none;
       background: transparent url('https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif') repeat;
       background-size: cover;
-      opacity: 0.07;
+      opacity: 0.08;
       z-index: 0;
     }
-    .light-mode body {
-      background: #f9f9f9;
-      color: #222;
+
+    #produk-wrapper {
+      position: relative;
+      z-index: 1;
+      border-radius: 1rem;
     }
+
+    #produk-wrapper::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1602524819375-8c705e99ec0c?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: -1;
+      border-radius: 1rem;
+    }
+
+    .dark-mode {
+      background: radial-gradient(circle at top center, #2c0e0e 0%, #1a0000 100%);
+      color: white;
+    }
+
+    .light-mode {
+      background: #f3f4f6;
+      color: #1f2937;
+    }
+
     .light-mode .stars {
       display: none;
     }
-    .light-mode .bg-gray-800 {
+
+    .light-mode header,
+    .light-mode footer,
+    .light-mode #invoice-section {
       background-color: #ffffff;
+      color: #1f2937;
     }
-    .light-mode .text-white {
-      color: #222222;
+
+    .light-mode #produk-list .bg-gray-800 {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
     }
-    .light-mode .text-teal-400 {
-      color: #0d9488;
-    }
+
   </style>
 </head>
-<body class="text-white" id="body">
-  <div class="stars" id="stars-bg"></div>
+<body class="dark-mode">
+  <div class="stars"></div>
 
   <!-- Splash Screen -->
-  <div id="logo-screen" class="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center">
+  <div id="logo-screen" class="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center">
     <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
   </div>
 
   <!-- MAIN CONTENT -->
   <div id="main-content" class="hidden relative z-10">
-    <!-- Theme Switcher -->
-    <div class="fixed top-4 right-4 z-50 no-print">
-      <button onclick="toggleTheme()" class="bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 transition">Ganti Tema</button>
-    </div>
-
     <!-- Welcome -->
     <div class="text-center py-6 text-3xl font-bold text-teal-400">
       Selamat Datang Di Website HanzyyOfficial
@@ -85,14 +117,19 @@
     <header class="bg-gray-800 shadow p-6 no-print">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <h1 class="text-4xl font-bold text-teal-400 tracking-widest">HanzyyOfficial</h1>
-        <a href="https://wa.me/6282264176976" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition">Hubungi Kami</a>
+        <div class="flex gap-2">
+          <button id="theme-toggle" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition">Ganti Tema</button>
+          <a href="https://wa.me/6282264176976" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition">Hubungi Kami</a>
+        </div>
       </div>
     </header>
 
     <!-- Produk -->
     <main class="max-w-7xl mx-auto px-4 py-12 no-print relative">
       <h2 class="text-3xl font-semibold mb-8 text-center text-teal-300">Produk & Service</h2>
-      <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative z-10"></div>
+      <div id="produk-wrapper" class="p-4">
+        <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 relative z-10"></div>
+      </div>
     </main>
 
     <!-- INVOICE -->
@@ -118,16 +155,6 @@
         <button onclick="closeInvoice()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-400 transition">← Kembali</button>
       </div>
     </section>
-
-    <!-- QRIS MODAL -->
-    <div id="qris-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 no-print">
-      <div class="bg-white text-black p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-        <h2 class="text-xl font-bold mb-2">Pembayaran via QRIS</h2>
-        <p class="text-sm text-gray-600 mb-4">Scan QR untuk bayar via DANA / GoPay</p>
-        <img src="https://k.top4top.io/p_3474n29381.jpg" class="mx-auto mb-4 rounded shadow">
-        <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Tutup</button>
-      </div>
-    </div>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-center py-6 shadow-inner mt-10">
@@ -162,10 +189,6 @@
       document.getElementById("invoice-section").classList.add('hidden');
     }
 
-    function toggleTheme() {
-      document.body.classList.toggle("light-mode");
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         document.getElementById('logo-screen').classList.add('hidden');
@@ -186,6 +209,18 @@
           </div>
         `;
         container.appendChild(div);
+      });
+
+      // Tema switch
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const body = document.body;
+        if (body.classList.contains("dark-mode")) {
+          body.classList.remove("dark-mode");
+          body.classList.add("light-mode");
+        } else {
+          body.classList.remove("light-mode");
+          body.classList.add("dark-mode");
+        }
       });
     });
   </script>
