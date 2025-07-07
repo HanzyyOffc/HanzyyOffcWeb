@@ -3,16 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PRAISLENCE</title>
-  <link rel="icon" href="https://yourdomain.com/favicon.ico" />
-  <meta name="description" content="Layanan Jasa Bot WhatsApp & Panel Pterodactyl oleh HanzyyOfficial.">
-  <meta name="keywords" content="Hanzyy, Bot WhatsApp, Script WA, Panel Pterodactyl, Jasa Coding">
+  <title>HanzyyProduk & Invoice</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      transition: background 0.5s ease, color 0.5s ease;
     }
     header h1 {
       font-family: 'Orbitron', sans-serif;
@@ -28,156 +24,132 @@
         transform: translateY(0);
       }
     }
-    .light-mode {
-      --bg-color: #ffffff;
-      --text-color: #1f2937;
-      --box-bg: #f3f4f6;
-      --button-bg: #14b8a6;
-      --button-hover: #0d9488;
-      --border-color: #14b8a6;
-    }
-    .dark-mode {
-      --bg-color: #1f2937;
-      --text-color: #ffffff;
-      --box-bg: #374151;
-      --button-bg: #14b8a6;
-      --button-hover: #0d9488;
-      --border-color: #14b8a6;
-    }
-    .theme-transition {
-      transition: background 0.3s, color 0.3s;
+    @media print {
+      .no-print { display: none !important; }
     }
   </style>
 </head>
-<body id="body" class="dark-mode bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
   <!-- Splash Screen -->
   <div id="logo-screen" class="fixed inset-0 bg-gray-900 z-50 flex flex-col items-center justify-center">
     <h1 class="text-3xl font-bold text-teal-400">Selamat Datang Di Website HanzyyOfficial</h1>
   </div>
 
-  <!-- Main Content -->
+  <!-- MAIN CONTENT -->
   <div id="main-content" class="hidden">
-    <!-- Toggle Theme -->
-    <div class="fixed top-4 right-4 z-50">
-      <button id="toggleTheme" class="px-4 py-2 bg-yellow-400 text-black rounded hover:bg-yellow-500 transition font-semibold">
-        🌙 Mode Terang
-      </button>
-    </div>
-
-    <div id="welcome-message" class="text-center py-6 text-3xl font-bold text-teal-400">
-      Selamat Datang Di Website HanzyyOffc
+    <!-- Welcome -->
+    <div class="text-center py-6 text-3xl font-bold text-teal-400">
+      Selamat Datang Di Website HanzyyOfficial
     </div>
 
     <audio id="welcome-audio">
       <source src="https://www.myinstants.com/media/sounds/mixkit-fairy-bells-583.mp3" type="audio/mpeg">
     </audio>
 
-    <header class="bg-gray-800 shadow p-6">
-      <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+    <!-- Header -->
+    <header class="bg-gray-800 shadow p-6 no-print">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
         <h1 class="text-4xl font-bold text-teal-400 tracking-widest">HanzyyOfficial</h1>
         <a href="https://wa.me/6282264176976" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition">Hubungi Kami</a>
       </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Produk -->
+    <main class="max-w-7xl mx-auto px-4 py-12 no-print">
       <h2 class="text-3xl font-semibold mb-8 text-center text-teal-300">Produk & Service</h2>
       <div id="produk-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"></div>
-
-      <!-- Tombol QRIS -->
-      <div class="text-center mt-10">
-        <button onclick="document.getElementById('qris-modal').classList.remove('hidden')" class="bg-yellow-500 text-black px-6 py-2 rounded-lg hover:bg-yellow-600 transition">Bayar via QRIS</button>
-      </div>
     </main>
 
-    <!-- QRIS Modal -->
-    <div id="qris-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
+    <!-- INVOICE -->
+    <section id="invoice-section" class="max-w-2xl mx-auto p-8 bg-gray-800 shadow-lg mt-10 rounded-lg hidden">
+      <div class="text-center mb-6">
+        <img src="https://i.postimg.cc/8Pz2dxxg/logo-hanzyy.png" class="w-32 h-auto mx-auto mb-2 rounded-full shadow" />
+        <p class="text-sm text-teal-400">HanzyyOfficial</p>
+      </div>
+      <div class="text-center mb-6">
+        <img src="https://k.top4top.io/p_3474n29381.jpg" alt="QR Pembayaran" class="w-48 mx-auto rounded shadow border">
+        <p class="text-xs text-gray-400 mt-1">Scan QR untuk pembayaran</p>
+      </div>
+      <h1 class="text-3xl font-bold text-center text-teal-400 mb-6">Invoice Pembelian</h1>
+      <div class="space-y-4 text-lg">
+        <p><strong>Nama Produk:</strong> <span id="produk-nama">...</span></p>
+        <p><strong>Harga:</strong> Rp <span id="produk-harga">...</span></p>
+        <p><strong>ID Transaksi:</strong> <span id="produk-id">...</span></p>
+        <p><strong>Status:</strong> <span id="produk-status">Belum Lunas</span></p>
+        <p><strong>Tanggal:</strong> <span id="produk-tanggal">...</span></p>
+      </div>
+      <div class="text-center mt-8 space-x-4 no-print">
+        <button onclick="window.print()" class="px-6 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 transition">🧾 Cetak Invoice</button>
+        <button onclick="closeInvoice()" class="px-6 py-2 bg-gray-500 text-white rounded hover:bg-gray-400 transition">← Kembali</button>
+      </div>
+    </section>
+
+    <!-- QRIS MODAL -->
+    <div id="qris-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 no-print">
       <div class="bg-white text-black p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
         <h2 class="text-xl font-bold mb-2">Pembayaran via QRIS</h2>
         <p class="text-sm text-gray-600 mb-4">Scan QR untuk bayar via DANA / GoPay</p>
-        <img src="https://k.top4top.io/p_3474n29381.jpg" alt="QRIS" class="mx-auto mb-4 rounded shadow">
+        <img src="https://k.top4top.io/p_3474n29381.jpg" class="mx-auto mb-4 rounded shadow">
         <button onclick="document.getElementById('qris-modal').classList.add('hidden')" class="mt-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Tutup</button>
       </div>
     </div>
 
+    <!-- Footer -->
     <footer class="bg-gray-800 text-center py-6 shadow-inner mt-10">
       <p class="text-gray-400">&copy; 2025 HANZYYOFFC. All rights reserved.</p>
     </footer>
   </div>
 
-  <!-- Script Produk + Theme Switch -->
   <script>
     const produk = [
-      { nama: "Jasa Fix Pairing Code", harga: "Rp10.000" },
-      { nama: "Jasa Fix Script Bot Wa", harga: "Rp15.000" },
-      { nama: "Jasa Ubah Tema Script", harga: "Rp20.000" },
-      { nama: "Jasa Ubah Code Pairing Jadi Nama Code Sendiri", harga: "Rp15.000" },
-      { nama: "Jasa Pw/Key Di Panel Sc Kalian", harga: "Rp10.000" },
-      { nama: "Jasa Rename Script Bot Wa", harga: "Rp5.000" },
-      { nama: "Jasa Bikin Script Bot Wa", harga: "Rp50.000" },
-      { nama: "Panel Pterodactyl", harga: "Rp30.000" },
-      { nama: "Reseller Panel", harga: "Rp25.000" },
-      { nama: "Admin Panel", harga: "Rp20.000" },
-      { nama: "PT Panel", harga: "Rp30.000" },
-      { nama: "Own Panel", harga: "Rp40.000" },
-      { nama: "Script Bot Pushkontak VIP", harga: "Rp35.000" },
-      { nama: "Script Bot MD 1000 Fitur", harga: "Rp45.000" },
-      { nama: "Script Bot Jaga Grup + Pushkontak + JPM", harga: "Rp50.000" },
-      { nama: "Script Bot", harga: "Rp25.000" },
+      { nama: "Jasa Fix Pairing Code", harga: 10000 },
+      { nama: "Jasa Fix Script Bot Wa", harga: 15000 },
+      { nama: "Jasa Ubah Tema Script", harga: 20000 },
+      { nama: "Panel Pterodactyl", harga: 40000 },
+      { nama: "Script Bot MD 1000 Fitur", harga: 50000 },
     ];
 
+    function generateInvoice(nama, harga) {
+      document.getElementById("produk-nama").innerText = nama;
+      document.getElementById("produk-harga").innerText = harga;
+      document.getElementById("produk-id").innerText = "INV" + Date.now();
+      document.getElementById("produk-status").innerText = "Belum Lunas";
+
+      const tanggal = new Date().toLocaleDateString('id-ID', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+      });
+      document.getElementById("produk-tanggal").innerText = tanggal;
+
+      document.getElementById("invoice-section").scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("invoice-section").classList.remove('hidden');
+    }
+
+    function closeInvoice() {
+      document.getElementById("invoice-section").classList.add('hidden');
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      // Splash Screen
       setTimeout(() => {
         document.getElementById('logo-screen').classList.add('hidden');
         document.getElementById('main-content').classList.remove('hidden');
-        const audio = document.getElementById('welcome-audio');
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((e) => console.log("Autoplay ditolak:", e));
-        }
+        document.getElementById('welcome-audio').play();
       }, 2500);
 
-      // Generate Produk
       const container = document.getElementById('produk-list');
-      produk.forEach((item) => {
+      produk.forEach(item => {
         const div = document.createElement('div');
         div.className = "bg-gray-800 border border-teal-500 rounded-xl shadow-lg p-6 hover:scale-105 transition-transform duration-300";
         div.innerHTML = `
           <h3 class="text-xl font-semibold text-teal-400">${item.nama}</h3>
-          <p class="text-gray-300 mb-4">${item.harga ?? 'Hubungi Kami'}</p>
-          <a href="https://wa.me/6282264176976?text=Halo%20saya%20mau%20beli%20${encodeURIComponent(item.nama)}" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition text-center block">Pesan via WA</a>
+          <p class="text-gray-300 mb-4">Rp ${item.harga}</p>
+          <div class="space-y-2">
+            <a href="https://wa.me/6282264176976?text=Halo%20saya%20mau%20beli%20${encodeURIComponent(item.nama)}" class="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 transition block text-center">Pesan via WA</a>
+            <button onclick="generateInvoice('${item.nama}', '${item.harga}')" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition w-full">🧾 Lihat Invoice</button>
+          </div>
         `;
         container.appendChild(div);
       });
-
-      // Theme Switcher
-      const body = document.getElementById('body');
-      const toggleBtn = document.getElementById('toggleTheme');
-
-      const applyTheme = (mode) => {
-        if (mode === 'light') {
-          body.classList.remove('dark-mode');
-          body.classList.add('light-mode');
-          toggleBtn.textContent = '🌙 Mode Gelap';
-        } else {
-          body.classList.remove('light-mode');
-          body.classList.add('dark-mode');
-          toggleBtn.textContent = '🌞 Mode Terang';
-        }
-        localStorage.setItem('theme', mode);
-      };
-
-      toggleBtn.addEventListener('click', () => {
-        const current = body.classList.contains('light-mode') ? 'light' : 'dark';
-        applyTheme(current === 'dark' ? 'light' : 'dark');
-      });
-
-      // Apply saved theme
-      const saved = localStorage.getItem('theme') || 'dark';
-      applyTheme(saved);
     });
   </script>
 </body>
 </html>
-
